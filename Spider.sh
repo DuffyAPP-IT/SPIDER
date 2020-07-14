@@ -123,43 +123,33 @@ while read p; do
       md5 $p 2>/dev/null | awk '{ print $4 }' >> SpiderOUT/PNGhash.txt  2>/dev/null
 done <SpiderOUT/png.txt
 
-echo Done!
-
-echo Lets start extracting...
-
 echo Extracting SQLITE Database Schemas
 find . -name '*.sqlite' -print -exec sqlite3 {} '.tables' 2>/dev/null \; | tee SpiderOUT/TableData.txt >/dev/null
-echo Done!
 
 echo Extracting Database Schemas
 find . -name '*.db' -print -exec sqlite3 {} '.tables' 2>/dev/null \; | tee SpiderOUT/TableData2.txt >/dev/null
-echo Done!
 
 
 
 echo Extracting WiFI Location Data
 sqlite3 ./private/var/root/Library/Caches/com.apple.wifid/ThreeBars.sqlite 'select ZLAT, ZLNG, ZBSSID from ZACCESSPOINT' | tee SpiderOUT/WiFi_Loc.txt >/dev/null
-echo Done!
 
 
 echo Extracting Basic Account Details
-sqlite3 ./private/var/mobile/Library/Accounts/Accounts3.sqlite 'SELECT ZUSERNAME from ZACCOUNT' | tee SpiderOUT/Accounts.txt >/dev/null >/dev/null  \;
-echo Done!
+sqlite3 ./private/var/mobile/Library/Accounts/Accounts3.sqlite 'SELECT ZUSERNAME from ZACCOUNT' | tee SpiderOUT/Accounts.txt >/dev/null >/dev/null
 
 
 echo Extracting ConnectedAlbum Details
-find ./private/var/mobile/Library/MediaStream/albumshare/ -name 'Model.sqlite' -exec sqlite3 {} 'SELECT email FROM 'AccessControls'' \; | tee SpiderOUT/ConnectedAlbum.txt >/dev/null >/dev/null  \;
-echo Done!
+find ./private/var/mobile/Library/MediaStream/albumshare/ -name 'Model.sqlite' -exec sqlite3 {} 'SELECT email FROM 'AccessControls'' \; | tee SpiderOUT/ConnectedAlbum.txt >/dev/null >/dev/null
 
 echo Extracting SharedAlbum URLs
-find ./private/var/mobile/Library/MediaStream/albumshare/ -name 'Model.sqlite' -exec sqlite3 {} 'SELECT name,url FROM 'Albums'' \; | tee SpiderOUT/SharedAlbum.txt >/dev/null >/dev/null  \;
-echo Done!
+find ./private/var/mobile/Library/MediaStream/albumshare/ -name 'Model.sqlite' -exec sqlite3 {} 'SELECT name,url FROM 'Albums'' \; | tee SpiderOUT/SharedAlbum.txt >/dev/null >/dev/null
 
 
 echo Loading SPIDER Data
 
 
-find . -name '*.sqlite' -print -exec sqlite3 {} '.dump' \; 2>/dev/null | tee SpiderOUT/DB-DUMP.txt >/dev/null 2>/dev/null  \;
+find . -name '*.sqlite' -print -exec sqlite3 {} '.dump' \; 2>/dev/null | tee SpiderOUT/DB-DUMP.txt >/dev/null 2>/dev/null
 
 
 #Removed KTX related stuff as not finished yet!
@@ -174,14 +164,15 @@ echo ========================================
 echo Inspecting Matching Databases...
 echo ========================================
 while read p; do
-  	find ./ -name '*.sqlite' -exec grep -H $p {} 2>/dev/null \;
+  	find ./ -name '*.sqlite' -exec grep -H $p {} \; 2>/dev/null | tee SpiderOUT/MATCHSQLITE.txt >/dev/null 2>/dev/null
 done <SpiderIn/spider
 
 while read p; do
-  	find ./ -name '*.db' -exec grep -H $p {} 2>/dev/null \;
+  	find ./ -name '*.db' -exec grep -H $p {} \; 2>/dev/null | tee SpiderOUT/MATCHDB.txt >/dev/null 2>/dev/null
 done <SpiderIn/spider
+ echo Done!
 
-echo FIND MATCH \(md5 comparison\)
+echo MD5 Compare...
 #Compare MD5s of input files against processes rootFS
 grep -Fxf ./SpiderOUT/JPGhash.txt ./SpiderIn/JPGhash.txt | sort --unique
 
@@ -189,5 +180,6 @@ grep -Fxf ./SpiderOUT/PNGhash.txt ./SpiderIn/PNGhash.txt | sort --unique
 
 echo Great Success!
 
-
-
+echo ========================================
+echo "Make Sure To Check SpiderOUT <3 \!"
+echo ========================================
