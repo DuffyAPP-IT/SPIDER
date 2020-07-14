@@ -181,5 +181,5 @@ grep -Fxf ./SpiderOUT/PNGhash.txt ./SpiderIn/PNGhash.txt | sort --unique
 echo Great Success!
 
 echo ========================================
-echo "Make Sure To Check SpiderOUT <3 \!"
+echo "Make Sure To Check The SpiderOUT Directory <3 \!"
 echo ========================================
