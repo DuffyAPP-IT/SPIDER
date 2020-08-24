@@ -3,7 +3,7 @@ clear
 
 echo ========================================
 echo Welcome To SPIDER
-echo Build P1
+echo Build 2
 echo DuffyAPP_IT - @J_Duffy01
 echo ========================================
 date
@@ -19,7 +19,7 @@ lpngCount=0
 #Check if rootFS is present
 if [ ! -d private ]
 then
-echo iOS rootFS Not Detected In Current Directory
+echo iOS Root Filesystem Not Detected In Current Directory
 echo Exiting For Safety Reasons...
 exit
 fi
@@ -91,10 +91,9 @@ dbCount=$(find . -name '*.db' 2>/dev/null | tee SpiderOUT/DB2.txt | wc -l >/dev/
 echo Found $dbCount DBs
 
 echo Finding Images
-jpgCount=$(find ./private/var -name '*.jpg' 2>/dev/null | tee SpiderOUT/jpg.txt | wc -l >/dev/null 2>/dev/null )
-find ./private/var -name '*.jpg' >/dev/null 2>/dev/null
+jpgCount=$(find . -type f -size +10k -size -800k -exec file '{}' \; 2>/dev/null | grep -H JFIF | cut -f2 -d':'  | tee SpiderOUT/jpg.txt | wc -l >/dev/null 2>/dev/null )
 echo Found JPGs
-pngCount=$(find ./private/var -name '*.png' 2>/dev/null | tee SpiderOUT/png.txt | wc -l >/dev/null 2>/dev/null )
+pngCount=$(find . -type f -size +10k -size -800k -exec file '{}' \; 2>/dev/null | grep -H PNG | cut -f2 -d':' | tee SpiderOUT/png.txt | wc -l >/dev/null 2>/dev/null )
 echo Found PNGs
 
 
@@ -153,11 +152,6 @@ find . -name '*.sqlite' -print -exec sqlite3 {} '.dump' \; 2>/dev/null | tee Spi
 
 
 #Removed KTX related stuff as not finished yet!
-
-## log all found ktx add to txt
-## loop through increment num and caputure to incrementing filename
-#echo KTX Extraction
-#find . -name '*.ktx' -print -exec cp {} SpiderOUT/KTX/KTX  \; >/dev/null 2>/dev/null
 
 
 echo ========================================
