@@ -22,14 +22,14 @@ then
 
 	# Identify bplists of interest (over 0 bytes...)
 	# Prevents empty values from being outputted.
-	find . -name '*.bplist' -size +20c -maxdepth 1 -print 2>/dev/null > plbuild
+	find . -name '*.bplist' -size +1c -maxdepth 1 -print 2>/dev/null > plbuild
 
 	# Iterate through each file in the 'identified' good bplists
 	while read p; do
 		echo "COMMENT:"
  		/usr/libexec/plistbuddy -c Print "$p" | grep -B7 'MSASComment' | head -1
  		echo "TIMESTAMP:"
- 		/usr/libexec/plistbuddy -c Print "$p" | grep 'NS.time' | head -1 | cut -f2 -d'.'
+ 		/usr/libexec/plistbuddy -c Print "$p" | grep 'NS.time' | head -1 | cut -f2 -d'.' | cut -f2 -d'='
 	done <plbuild
 
 	# Cleanup
