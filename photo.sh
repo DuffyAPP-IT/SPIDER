@@ -18,14 +18,25 @@ then
  		count=$[$count +1]
 	done <blobdata
 	echo "Parsing Binary PLIST Values..."
-	find . -name '*.bplist' -exec /usr/libexec/plistbuddy -c Print {} 2>/dev/null \; | grep -B7 'MSASComment' >> bplistvals
 
-	if [ -f bplistvals ]
-		then
-			cat bplistvals | grep -A1 - | grep -v classes | grep -v -
-	else
-		echo Coud Not Find BPLIST Values...
-	fi
+
+	# Identify bplists of interest (over 0 bytes...)
+	# Prevents empty values from being outputted.
+	find . -name '*.bplist' -size +20c -maxdepth 1 -print 2>/dev/null > plbuild
+
+	# Iterate through each file in the 'identified' good bplists
+	while read p; do
+		echo "COMMENT:"
+ 		/usr/libexec/plistbuddy -c Print "$p" | grep -B7 'MSASComment' | head -1
+ 		echo "TIMESTAMP:"
+ 		/usr/libexec/plistbuddy -c Print "$p" | grep 'NS.time' | head -1 | cut -f2 -d'.'
+	done <plbuild
+
+	# Cleanup
+	echo "Cleaning Up"
+	find . -name '*.bplist' -maxdepth 1 -exec rm {} \;
+	rm plbuild
+	rm blobdata
 
 else
 	echo Coud Not Find Blob Data...
