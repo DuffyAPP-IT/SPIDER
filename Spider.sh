@@ -221,7 +221,9 @@ then
 		echo "No Information Supplied... Exiting For Safety"
 		exit 1
 	fi
+	echo "Searching..."
 	find ./ -name '*.sqlite' -exec grep -H $2 {} \; 2>/dev/null | tee SpiderOUT/MATCHSQLITE.txt 2>/dev/null
+	find ./ -name '*.db' -exec grep -H $2 {} \; 2>/dev/null | tee SpiderOUT/MATCHSQLITE.txt 2>/dev/null
 fi
 
 

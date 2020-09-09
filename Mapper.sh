@@ -10,28 +10,28 @@ date
 echo ========================================
 
 #Check if rootFS is present
-if [ ! -d private ]
-then
-	echo iOS rootFS Not Detected In Current Directory
-	echo Exiting For Safety...
-	exit
-fi
+#if [ ! -d private ]
+#then
+#	echo iOS rootFS Not Detected In Current Directory
+#	echo Exiting For Safety...
+#	exit
+#fi
 
 read -rsn1 -p"Press Enter To MapperV2...";echo
 
-echo ========================================
-echo Removing Empty Directories In Build...
-echo ========================================
+#echo ========================================
+#echo Removing Empty Directories In Build...
+#echo ========================================
+#
+#find . -type d -empty -print -exec rm -rf {} \; >/dev/null 2>/dev/null
+#echo 'Done!'
 
-find . -type d -empty -print -exec rm -rf {} \; >/dev/null 2>/dev/null
-echo 'Done!'
+# echo ========================================
+# echo Removing File Smaller Than 50 Bytes In Build...
+# echo ========================================
 
-echo ========================================
-echo Removing File Smaller Than 50 Bytes In Build...
-echo ========================================
-
-find . -type f -size -50c  -exec rm {} \; >/dev/null 2>/dev/null
-echo 'Done!'
+# find . -type f -size -50c  -exec rm {} \; >/dev/null 2>/dev/null
+# echo 'Done!'
 
 
 echo ========================================
