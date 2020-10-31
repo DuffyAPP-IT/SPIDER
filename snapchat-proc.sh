@@ -7,6 +7,14 @@ then
 	exit 1
 fi
 
+which truncate >/dev/null 2>/dev/null
+dtexist=$?
+if [ $dtexist -ne 0 ]
+	then
+	echo 'truncate not installed. install with Brew (brew install truncate)'
+	exit 1
+fi
+
 echo "Dumping Database Blobs To HEX Values..."
 
 sqlline="select hex(message_content) from conversation_message"
