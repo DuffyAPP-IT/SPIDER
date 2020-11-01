@@ -3,7 +3,7 @@
 
 if [ $# -eq 0 ]
 then
-	echo -e "snapchat-proc - DuffyAPP_IT - @J-Duffy01\nUsage: ./other.sh /path/to/arroyo.sqlite"
+	echo -e "snapchat-proc - DuffyAPP_IT - @J-Duffy01\nUsage: ./snapchat-proc.sh /path/to/arroyo.sqlite /path/to/scdb-27.sqlite"
 	exit 1
 fi
 
@@ -15,7 +15,19 @@ if [ $dtexist -ne 0 ]
 	exit 1
 fi
 
-echo "Dumping Database Blobs To HEX Values..."
+#echo "Dumping Database Blobs To HEX Values..."
+
+echo "███████╗ ██████╗        ██████╗ ██████╗  ██████╗  ██████╗";
+echo "██╔════╝██╔════╝        ██╔══██╗██╔══██╗██╔═══██╗██╔════╝";
+echo "███████╗██║             ██████╔╝██████╔╝██║   ██║██║     ";
+echo "╚════██║██║             ██╔═══╝ ██╔══██╗██║   ██║██║     ";
+echo "███████║╚██████╗███████╗██║     ██║  ██║╚██████╔╝╚██████╗";
+echo "╚══════╝ ╚═════╝╚══════╝╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝";
+echo "v1 - SpiderKIT                                           ";
+echo -e "----------\nBasic Information:"
+echo "User ID ->" | tr -d '\n' && sqlite3 $2 -line "SELECT ZUSERID FROM ZGALLERYPROFILE" | cut -f2 -d'='
+echo "User Sync Token ->" | tr -d '\n' && sqlite3 $2 -line "SELECT ZSYNCTOKEN FROM ZGALLERYPROFILE" | cut -f2 -d'='
+sleep 10
 
 sqlline="select hex(message_content) from conversation_message"
 sid="select sender_id from conversation_message"
@@ -78,10 +90,9 @@ then
             tail +60c $count.outsc > $count.outsc.truncated && mv $count.outsc.truncated $count.outsc
 
             #        Remove last 75 bytes
-            #        stat -f%z $count.outsc
+
             newfsize=$(($(stat -f%z $count.outsc) - 72)) 2>/dev/null
             truncate -s $newfsize $count.outsc 2>/dev/null
-            #        stat -f%z $count.outsc
 
             #        tr -d '\n\r' < $count.outsc
 
@@ -89,10 +100,10 @@ then
             isvid=$?
             if [ $isvid -eq 0 ]
             then
-            #            stat -f%z $count.outsc
+
             newfsize=$(($(stat -f%z $count.outsc) - 75)) 2>/dev/null
             truncate -s $newfsize $count.outsc
-            #            stat -f%z $count.outsc
+
             fi
 
             hexdump $count.outsc | grep '87 01 0a 84'
@@ -100,10 +111,10 @@ then
             if [ $isvid -eq 0 ]
             then
             tail +149c $count.outsc > $count.outsc.truncated && mv $count.outsc.truncated $count.outsc
-            #        stat -f%z $count.outsc
+
             newfsize=$(($(stat -f%z $count.outsc) - 162)) 2>/dev/null
             truncate -s $newfsize $count.outsc
-            #        stat -f%z $count.outsc
+
             fi
 
             hexdump $count.outsc | grep '8a 01 0a 87'
@@ -111,10 +122,10 @@ then
             if [ $isvid -eq 0 ]
             then
             tail +162c $count.outsc > $count.outsc.truncated && mv $count.outsc.truncated $count.outsc
-            #        stat -f%z $count.outsc
+
             newfsize=$(($(stat -f%z $count.outsc) - 188)) 2>/dev/null
             truncate -s $newfsize $count.outsc
-            #        stat -f%z $count.outsc
+
             fi
 
 
