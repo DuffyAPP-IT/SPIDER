@@ -3,7 +3,7 @@ clear
 
 echo ========================================
 echo Welcome To SPIDER -\> MapperV2
-echo Build 2
+echo v3
 echo DuffyAPP_IT - @J_Duffy01
 echo ========================================
 date
@@ -17,7 +17,7 @@ echo ========================================
 #	exit
 #fi
 
-read -rsn1 -p"Press Enter To MapperV2...";echo
+read -rsn1 -p"Press Enter To Execute MapperV2...";echo
 
 #echo ========================================
 #echo Removing Empty Directories In Build...
@@ -26,12 +26,12 @@ read -rsn1 -p"Press Enter To MapperV2...";echo
 #find . -type d -empty -print -exec rm -rf {} \; >/dev/null 2>/dev/null
 #echo 'Done!'
 
-# echo ========================================
-# echo Removing File Smaller Than 50 Bytes In Build...
-# echo ========================================
+ echo ========================================
+ echo Removing File Smaller Than 50 Bytes In Build...
+ echo ========================================
 
-# find . -type f -size -50c  -exec rm {} \; >/dev/null 2>/dev/null
-# echo 'Done!'
+ find . -type f -size -50c  -exec rm {} \; >/dev/null 2>/dev/null
+ echo 'Done!'
 
 
 echo ========================================
@@ -40,7 +40,7 @@ echo ========================================
 
 find . -type f -size +50k -name "*.db" -print 2>/dev/null
 find . -type f -size +50k -name "*.sqlite*" -print 2>/dev/null
-
+find . -type f -size +10k -size -800k -not -name "*.db" -not -name "*.sqlite*" -exec file '{}' \; 2>/dev/null | grep -H SQLite | cut -f2 -d':'
 
 
 echo ========================================

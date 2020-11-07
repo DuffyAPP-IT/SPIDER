@@ -26,14 +26,14 @@ then
 
 	# Iterate through each file in the 'identified' good bplists
 	while read p; do
- 		/usr/libexec/plistbuddy -c Print "$p" | grep -a $2 -A2 | tail -1 | cut -f2 -d'='
+ 		/usr/libexec/plistbuddy -c Print "$p" | grep -a $2
 	done <plbuild
 
 	# Cleanup
 	echo "Cleaning Up Temporary Files"
-	find . -name '*.bplist' -maxdepth 1 -exec rm {} \;
-	rm plbuild
-	rm blobdata
+    rm *.bplist
+    rm plbuild
+    rm blobdata
 
 else
 	echo Coud Not Find Blob Data...
